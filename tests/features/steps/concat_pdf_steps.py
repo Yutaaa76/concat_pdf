@@ -6,6 +6,12 @@ from concat_pdf.concat_pdf import concat_pdfs
 
 @given('two valid PDF files')
 def given_two_valid_pdf_files(context):
+    """
+    Create two temporary valid PDF files and store their paths in the context.
+
+    Args:
+        context: Behave context object for sharing state between steps.
+    """
     context.temp_files = []
     for _ in range(2):
         fd, path = tempfile.mkstemp(suffix='.pdf')
@@ -21,6 +27,12 @@ def given_two_valid_pdf_files(context):
 
 @given('one valid PDF file and one missing PDF file')
 def given_one_valid_and_one_missing_pdf_file(context):
+    """
+    Create one temporary valid PDF file and add a missing file path to the context.
+
+    Args:
+        context: Behave context object for sharing state between steps.
+    """
     context.temp_files = []
     fd, path = tempfile.mkstemp(suffix='.pdf')
     os.close(fd)
@@ -36,10 +48,22 @@ def given_one_valid_and_one_missing_pdf_file(context):
 
 @when('I concatenate them')
 def when_i_concatenate_them(context):
+    """
+    Call the concat_pdfs function with the files in context.
+
+    Args:
+        context: Behave context object for sharing state between steps.
+    """
     context.result = concat_pdfs(context.temp_files, context.output_path)
 
 @then('the output PDF should have 2 pages')
 def then_output_pdf_should_have_2_pages(context):
+    """
+    Assert that the output PDF exists and has exactly 2 pages.
+
+    Args:
+        context: Behave context object for sharing state between steps.
+    """
     assert context.result is True, f"concat_pdfs returned {context.result}"
     assert os.path.exists(context.output_path), f"Output file does not exist: {context.output_path}"
     try:
@@ -57,6 +81,12 @@ def then_output_pdf_should_have_2_pages(context):
 
 @then('the output PDF should not exist or should have at most 1 page')
 def then_output_pdf_should_not_exist_or_have_at_most_1_page(context):
+    """
+    Assert that the output PDF does not exist or has at most 1 page.
+
+    Args:
+        context: Behave context object for sharing state between steps.
+    """
     if context.result:
         # Output file should exist and have at most 1 page
         assert os.path.exists(context.output_path)
