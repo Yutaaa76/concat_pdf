@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "concat_pdf"
+version = "0.1.0"
+description = "A tool to concatenate PDF files"
+authors = [
+    { name = "Your Name" }
+]
+dependencies = [
+    "PyPDF2"
+]
+requires-python = ">=3.7"
