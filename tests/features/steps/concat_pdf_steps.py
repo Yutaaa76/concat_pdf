@@ -5,7 +5,7 @@ from PyPDF2 import PdfWriter, PdfReader
 from concat_pdf.concat_pdf import concat_pdfs
 
 @given('two valid PDF files')
-def step_impl(context):
+def given_two_valid_pdf_files(context):
     context.temp_files = []
     for _ in range(2):
         fd, path = tempfile.mkstemp(suffix='.pdf')
@@ -20,7 +20,7 @@ def step_impl(context):
     context.output_file.close()
 
 @given('one valid PDF file and one missing PDF file')
-def step_impl(context):
+def given_one_valid_and_one_missing_pdf_file(context):
     context.temp_files = []
     fd, path = tempfile.mkstemp(suffix='.pdf')
     os.close(fd)
@@ -35,11 +35,11 @@ def step_impl(context):
     context.output_file.close()
 
 @when('I concatenate them')
-def step_impl(context):
+def when_i_concatenate_them(context):
     context.result = concat_pdfs(context.temp_files, context.output_path)
 
 @then('the output PDF should have 2 pages')
-def step_impl(context):
+def then_output_pdf_should_have_2_pages(context):
     assert context.result is True, f"concat_pdfs returned {context.result}"
     assert os.path.exists(context.output_path), f"Output file does not exist: {context.output_path}"
     try:
@@ -56,7 +56,7 @@ def step_impl(context):
         os.remove(context.output_path)
 
 @then('the output PDF should not exist or should have at most 1 page')
-def step_impl(context):
+def then_output_pdf_should_not_exist_or_have_at_most_1_page(context):
     if context.result:
         # Output file should exist and have at most 1 page
         assert os.path.exists(context.output_path)

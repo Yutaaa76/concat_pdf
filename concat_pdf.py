@@ -1,9 +1,10 @@
 import sys
 import argparse
+import PyPDF2
+
 
 def concat_pdfs(input_pdfs, output_pdf):
     print("DEBUG: concat_pdfs called with:", input_pdfs, output_pdf)
-    import PyPDF2
     pdf_merger = PyPDF2.PdfMerger()
     errors = []
     appended = 0
@@ -28,7 +29,8 @@ def concat_pdfs(input_pdfs, output_pdf):
         print(f"Failed to write merged PDF: {e}")
         return False
     print("DEBUG: concat_pdfs returning True")
-    return True  # Ensure True is always returned on success
+    return True
+
 
 def main():
     parser = argparse.ArgumentParser(description="Concatenate multiple PDF files.")
@@ -39,6 +41,7 @@ def main():
         print("Please provide at least two input PDF files.")
         sys.exit(1)
     concat_pdfs(args.input_pdfs, args.output)
+
 
 if __name__ == "__main__":
     main()
