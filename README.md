@@ -16,12 +16,15 @@ This is a command-line tool for merging multiple PDF files into a single PDF. It
 
 ## Installation
 1. Clone this repository.
-2. Install dependencies:
+2. Install dependencies (with pinned versions):
    ```sh
    pip install -r requirements.txt
    # or for development (includes linting and testing tools):
    pip install -r requirements-dev.txt
    ```
+
+> **Note:** All dependencies are pinned to specific versions in the requirements files for reproducibility and to lock versions.
+> To update the lock, run `pip freeze > requirements.txt` after installing or upgrading packages.
 
 ## Usage
 To concatenate PDF files:
@@ -51,13 +54,17 @@ Run Ruff linter:
 ruff check .
 ```
 
+Run mypy type checker:
+```sh
+mypy .
+```
 
 ## Project Structure
 - `main.py` — CLI entry point
 - `concat_pdf/concat_pdf.py` — Core PDF merging logic
 - `tests/` — Unit and BDD tests
-- `requirements.txt` — Runtime dependencies
-- `requirements-dev.txt` — Development dependencies
+- `requirements.txt` — Runtime dependencies (pinned)
+- `requirements-dev.txt` — Development dependencies (pinned)
 
 ---
 

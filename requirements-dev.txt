@@ -1,5 +1,5 @@
 -r requirements.txt
-pytest
-behave
-mypy
+pytest==8.2.1
+behave==1.2.6
+mypy==1.10.0
 ruff
