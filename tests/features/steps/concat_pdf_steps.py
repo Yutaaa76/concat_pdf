@@ -109,3 +109,49 @@ def then_output_pdf_should_not_exist_or_have_at_most_1_page(context):
     for path in context.temp_files:
         if os.path.exists(path):
             os.remove(path)
+
+@when('I split the first PDF')
+def when_i_split_the_first_pdf(context):
+    """
+    Split the first PDF in context.temp_files and store output files in context.split_files.
+    """
+    from concat_pdf.concat_pdf import split_pdf
+    import tempfile
+    context.split_dir = tempfile.mkdtemp()
+    context.split_files = split_pdf(context.temp_files[0], context.split_dir)
+
+@then('the output should be single-page PDFs')
+def then_output_should_be_single_page_pdfs(context):
+    """
+    Assert that the split output files exist and each has one page.
+    """
+    from PyPDF2 import PdfReader
+    assert context.split_files is not None
+    for f in context.split_files:
+        assert os.path.exists(f)
+        reader = PdfReader(f)
+        assert len(reader.pages) == 1
+        os.remove(f)
+    os.rmdir(context.split_dir)
+
+@when('I extract the first page from the first PDF')
+def when_i_extract_first_page(context):
+    """
+    Extract the first page from the first PDF and store the output path in context.extracted_pdf.
+    """
+    from concat_pdf.concat_pdf import extract_pages
+    import tempfile
+    context.extracted_pdf = tempfile.mktemp(suffix='.pdf')
+    context.extract_result = extract_pages(context.temp_files[0], [1], context.extracted_pdf)
+
+@then('the extracted PDF should have 1 page')
+def then_extracted_pdf_should_have_1_page(context):
+    """
+    Assert that the extracted PDF exists and has exactly 1 page.
+    """
+    from PyPDF2 import PdfReader
+    assert context.extract_result is True
+    assert os.path.exists(context.extracted_pdf)
+    reader = PdfReader(context.extracted_pdf)
+    assert len(reader.pages) == 1
+    os.remove(context.extracted_pdf)

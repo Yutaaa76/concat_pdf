@@ -1,9 +1,11 @@
 # PDF Concatenation Tool
 
-This is a command-line tool for merging multiple PDF files into a single PDF. It is implemented in Python with the help of GitHub Copilot.
+This is a command-line tool for merging and manipulating PDF files. It is implemented in Python with the help of GitHub Copilot.
 
 ## Features
 - Concatenate two or more PDF files into one.
+- Split a PDF into single-page PDFs.
+- Extract specific pages from a PDF.
 - Handles missing or unreadable files gracefully.
 - Includes unit tests (pytest) and BDD tests (Behave).
 - Code linting with Ruff and type checking with mypy.
@@ -30,6 +32,18 @@ This is a command-line tool for merging multiple PDF files into a single PDF. It
 To concatenate PDF files:
 ```sh
 python main.py file1.pdf file2.pdf -o merged.pdf
+```
+
+To split a PDF into single-page PDFs:
+```python
+from concat_pdf.concat_pdf import split_pdf
+split_pdf('input.pdf', 'output_dir')
+```
+
+To extract specific pages from a PDF:
+```python
+from concat_pdf.concat_pdf import extract_pages
+extract_pages('input.pdf', [1, 3, 5], 'output.pdf')
 ```
 
 For help:
@@ -61,7 +75,7 @@ mypy .
 
 ## Project Structure
 - `main.py` — CLI entry point
-- `concat_pdf/concat_pdf.py` — Core PDF merging logic
+- `concat_pdf/concat_pdf.py` — Core PDF manipulation logic
 - `tests/` — Unit and BDD tests
 - `requirements.txt` — Runtime dependencies (pinned)
 - `requirements-dev.txt` — Development dependencies (pinned)
